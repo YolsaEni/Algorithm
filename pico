@@ -1,0 +1,33 @@
+/*
+
+1 what is pico?
+pico:  object detection with pixel intensity comparisons organized in decision trees[2].
+2 pico framework.
+vj=haar-like feature+adaboost+cascade.
+ Pico is a modification of vj framework.
+Pico=pixel intensity comparisons + gentle boost + chain-like cascade
+3 The reason we use pico instead of pixels is that all the discriminating power derives from relative angles and distances among tags[1].
+4 pico binary test:
+binTest(I; I1,I2) equals 0 if I(I1)<I(I2), equals 1 otherwise. Here I1 and I2 are coordinates drawn from [-1,1]x[-1,1].
+5 How to select binary test?
+We select binary test in each internal node of our tree in a way to minimize the weighted mean squared error obtained when training data is split by the test.
+6 difference with vj algorithm.
+Vj uses the best haar-like feature as its weak classifier which can be viewed tree of depth 1, but pico uses tree of some depth instead.
+7 Ensemble of trees
+Pico uses GentleBoost and vj uses AdaBoost.( almost same)
+8 Cascade:
+Vj uses cascade to reject non-objects at early stages, with little processing time spent.
+Pico uses chain-like cascade, which is much like vj cascade, but also uses previous stage as an additional information to improve current stage’s discriminability, thus improving convergence of each stage classifier[3].
+9 The advantages of pico compared with vj.
+One, does not require computation of integral images.
+Two, all binary tests in internal nodes of the trees are based on the same feature, but vj used 5 different types.
+Three, no need for image pre-processing( such as normalization, resizing, smoothing).
+Four, can easily be modified for fast detection of in-plane rotated objects.
+
+References
+[1] Nenad Markuˇs, Miroslav Frljak, Igor S. Pandˇzi´c, J¨orgen Ahlberg and Robert Forchheimer. Object Detection with Pixel Intensity Comparisons Organized in Decision Trees. Computer Science,  14(4):2657-62, 2013.
+[2] Y. Amit and D. Geman. Shape quantization and recognition with randomized trees. Neural Computation, 9:1545–1588, 1997.
+[3] R. Xiao, L. Zhu, and H.-J. Zhang. Boosting chain learning for object detection. In ICCV, volume 1, pages 709–715, 2003.
+
+
+ */
