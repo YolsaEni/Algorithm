@@ -1,0 +1,431 @@
+<html>
+<head>
+<title>Метод Гаусса для решения систем линейных уравнений</title>
+</head>
+<body bgcolor="black" text="white" link="yellow" vlink="pink">
+<center>
+<a href="http://alexeypetrov.narod.ru/index.html" target="_top">На главную >>></a>
+</center>
+<br><br>
+<center><b>Метод Гаусса для решения систем линейных уравнений</b></center>
+<p align=justify>Здесь описан алгоритм решения системы линейных уравнений с 
+помощью так называемого метода Гаусса. Программу вы можете скачать разделе 
+<a href="http://alexeypetrov.narod.ru/progs.html#gauss">программы</a>. Алгоритм
+реализован на языке С.
+
+<p>Пусть у нас есть система N линейных уравнений
+<p>a<sub>11</sub>x<sub>1</sub> + 
+   a<sub>12</sub>x<sub>2</sub> + 
+   a<sub>13</sub>x<sub>3</sub> + ...
+   a<sub>1N</sub>x<sub>N</sub> = b<sub>1</sub>
+<br>a<sub>21</sub>x<sub>1</sub> + 
+   a<sub>22</sub>x<sub>2</sub> + 
+   a<sub>23</sub>x<sub>3</sub> + ...
+   a<sub>2N</sub>x<sub>N</sub> = b<sub>2</sub>
+<br>a<sub>31</sub>x<sub>1</sub> + 
+   a<sub>32</sub>x<sub>2</sub> + 
+   a<sub>33</sub>x<sub>3</sub> + ...
+   a<sub>3N</sub>x<sub>N</sub> = b<sub>3</sub>
+<br>...
+<br>a<sub>N1</sub>x<sub>1</sub> + 
+   a<sub>N2</sub>x<sub>2</sub> + 
+   a<sub>N3</sub>x<sub>3</sub> + ...
+   a<sub>NN</sub>x<sub>N</sub> = b<sub>N</sub>
+
+<p>где x<sub>i</sub> - неизвестные, a<sub>ij</sub> - коэффициенты при 
+неизвестных,  b<sub>i</sub> - свободные члены в уравнениях, i,j пробегают
+значения от 1 до N.
+<p>Цель задачи - зная  a<sub>ij</sub> и b<sub>i</sub> найти x<sub>i</sub>.
+<p>Суть метода Гаусса состоит в том, что с помощью некоторых операций
+исходную систему уравнений можно свести к более простой системе. Эта простая
+система имеет треугольный вид:
+
+<p><table>
+<tr>
+<td>a<sub>11</sub>x<sub>1</sub> +
+<td>a<sub>12</sub>x<sub>2</sub> + 
+<td>a<sub>13</sub>x<sub>3</sub> + 
+<td>...
+<td>a<sub>1N</sub>x<sub>N</sub> = b<sub>1</sub>
+
+<tr>
+<td>
+<td>a<sub>22</sub>x<sub>2</sub> + 
+<td>a<sub>23</sub>x<sub>3</sub> + 
+<td>...
+<td>a<sub>2N</sub>x<sub>N</sub> = b<sub>2</sub>
+
+<tr>
+<td>
+<td>
+<td>a<sub>33</sub>x<sub>3</sub> + 
+<td>...
+<td>a<sub>3N</sub>x<sub>N</sub> = b<sub>3</sub>
+
+<tr>
+<td>...
+
+<tr>
+<td>
+<td>
+<td>
+<td>...
+<td>a<sub>NN</sub>x<sub>N</sub> = b<sub>N</sub>
+
+</table>
+
+<p>Особенность этой системы - в строках с номером i все коэффициенты a<sub>ij</sub>
+при j&lt;i равны нулю.
+<p>Если мы смогли привести нашу систему уравнений к такому треугольному виду, 
+то решить уравнения уже просто. Из последнего уравнения находим x<sub>N</sub>=
+b<sub>N</sub> / a<sub>NN</sub>. Дальше подставляем его в предпоследнее уравнение
+и находим из него x<sub>N-1</sub>. Подставляем оба найденных решения в следующее
+с конца уравнение и находим x<sub>N-2</sub>. И так далее, пока не найдем x<sub>1</sub>, 
+на чем решение заканчивается. Такая процедура называется обратной прогонкой.
+<p>Теперь перейдем к вопросу как же добиться того, чтобы система стала 
+треугольной.
+<p>Из линейной алгебры (<i>см. например, Крутицкая Н.И., Тихонравов А.В., 
+Шишкин А.А., Аналитическая геометрия и линейная алгебра с приложениями</i>) известно
+что если к некоторой строке системы уравнений прибавить любую линейную 
+комбинацию любых других строк этой системы, то решение системы не изменится.
+Под линейной комбинацией строк понимается сумма строк, каждая из которых у
+множается на некоторое число (в принципе, любое).
+<p>Нужно, чтобы во второй строке получилось уравнение, в которой
+отсутствует член при x<sub>1</sub>. Прибавим к этой строке первую строку, 
+умноженную на некоторое число M.
+<p>
+<p>(a<sub>11</sub>x<sub>1</sub> + 
+   a<sub>12</sub>x<sub>2</sub> + 
+   a<sub>13</sub>x<sub>3</sub> + ...
+   a<sub>1N</sub>x<sub>N</sub> = b<sub>1</sub>)*M +
+<br>a<sub>21</sub>x<sub>1</sub> + 
+   a<sub>22</sub>x<sub>2</sub> + 
+   a<sub>23</sub>x<sub>3</sub> + ...
+   a<sub>2N</sub>x<sub>N</sub> = b<sub>2</sub>
+<p>Получим
+<p>(a<sub>11</sub>*М + a<sub>21</sub>) x<sub>1</sub> + ... =  
+b<sub>1</sub>*M + b<sub>2</sub> 
+<p>Для того, чтобы член при x<sub>1</sub> равнялся нулю, нужно, чтобы
+M = - a<sub>21</sub> / a<sub>11</sub>. Проделав эту операцию, получившееся уравнение
+запишем вместо второго и приступим к третьему уравнению. К нему мы прибавим
+первое уравнение, умноженное на M = - a<sub>31</sub> / a<sub>11</sub> и 
+тоже получим ноль вместо члена при x<sub>1</sub>. Такую операцию нужно проделать
+над всеми остальными уравнениями. В результате получим систему такого вида:
+
+<p><table>
+<tr>
+<td>a<sub>11</sub>x<sub>1</sub> +
+<td>a<sub>12</sub>x<sub>2</sub> + 
+<td>a<sub>13</sub>x<sub>3</sub> + 
+<td>...
+<td>a<sub>1N</sub>x<sub>N</sub> = b<sub>1</sub>
+
+<tr>
+<td>
+<td>a<sub>22</sub>x<sub>2</sub> + 
+<td>a<sub>23</sub>x<sub>3</sub> + 
+<td>...
+<td>a<sub>2N</sub>x<sub>N</sub> = b<sub>2</sub>
+
+<tr>
+<td>
+<td>a<sub>32</sub>x<sub>2</sub> +
+<td>a<sub>33</sub>x<sub>3</sub> + 
+<td>...
+<td>a<sub>3N</sub>x<sub>N</sub> = b<sub>3</sub>
+
+<tr>
+<td>...
+
+<tr>
+<td>
+<td>a<sub>N2</sub>x<sub>2</sub> +
+<td>a<sub>N3</sub>x<sub>3</sub> +
+<td>...
+<td>a<sub>NN</sub>x<sub>N</sub> = b<sub>N</sub>
+</table>
+
+<p>После этого будем избавляться от членов при  x<sub>2</sub> в третьем, четвертом, 
+N-ом уравнении. Для этого нужно к уравнению с j-м номером прибавить
+2-ое уравнение, умноженное на M = - a<sub>j2</sub> / a<sub>22</sub>. Проделав
+эту операцию над всеми остальными уравнениями, получим систему где нет
+членов с x<sub>2</sub> в уравнениях с номером больше 2.
+<p>И так далее... Проделав это для третьего члена, четвертого... до тех пор, 
+пока не кончатся уравнения, получим в итоге систему треугольного вида.
+<p>Ниже приведен текст программы.
+<pre>
+//HOWTO solve system of linear equations
+//ax=b
+//where a[N][N] is square matrix,
+//b[N] and x[N] are columns
+
+//data are stored in input text file:
+
+//input file format:
+//a_11 a_12 a_13... a_1N b_1
+//a_21 a_22 a_23... a_2N b_2
+//...
+//a_N1 a_N2 a_N3... a_NN b_N
+
+#include &lt;stdio.h&gt;
+#include &lt;process.h&gt;
+float **a, *b, *x;
+int N;
+char filename[256];
+FILE* InFile=NULL;
+void count_num_lines(){
+   //count number of lines in input file - number of equations
+   int nelf=0;       //non empty line flag
+   do{
+       nelf = 0;
+       while(fgetc(InFile)!='\n' && !feof(InFile)) nelf=1;
+       if(nelf) N++;
+   }while(!feof(InFile));
+}
+
+void freematrix(){
+   //free memory for matrixes
+   int i;
+   for(i=0; i&lt;N; i++){
+       delete [] a[i];
+   }
+   delete [] a;
+   delete [] b;
+   delete [] x;
+}
+
+void allocmatrix(){
+   //allocate memory for matrixes
+   int i,j;
+   x = new float[N];
+   b = new float[N];
+   a = new float*[N];
+   if(x==NULL || b==NULL || a==NULL){
+       printf("\nNot enough memory to allocate for %d equations.\n", N);
+       exit(-1);
+   }
+   for(i=0; i&lt;N; i++){
+       a[i] = new float[N];
+       if(a[i]==NULL){
+	   printf("\nNot enough memory to allocate for %d equations.\n", N);
+       }
+   }
+   for(i=0; i&lt;N; i++){
+       for(j=0; j&lt;N; j++){
+	   a[i][j]=0;
+       }
+       b[i]=0;
+       x[i]=0;
+   }
+}
+
+void readmatrix(){
+   int i=0,j=0;
+   //read matrixes a and b from input file
+   for(i=0; i&lt;N; i++){
+       for(j=0; j&lt;N; j++){
+	   fscanf(InFile, "%f", &a[i][j]);
+       }
+       fscanf(InFile, "%f", &b[i]);
+   }
+}
+
+void printmatrix(){
+   //print matrix "a"
+   int i=0,j=0;
+   printf("\n");
+   for(i=0; i&lt;N; i++){
+       for(j=0; j&lt;N; j++){
+	   printf(" %+f*X%d", a[i][j], j);
+       }
+       printf(" =%f\n", b[i]);
+   }
+}
+
+void testsolve(){
+   //test that ax=b
+   int i=0,j=0;
+   printf("\n");
+   for(i=0; i&lt;N; i++){
+       float s = 0;
+       for(j=0; j&lt;N; j++){
+	   s += a[i][j]*x[j];
+       }
+       printf("%f\t%f\n", s, b[i]);
+   }
+}
+void printresult(){
+   int i=0;
+   printf("\n");
+   printf("Result\n");
+   for(i=0; i&lt;N; i++){
+       printf("X%d = %f\n", i, x[i]);
+   }
+}
+void diagonal(){
+   int i, j, k;
+   float temp=0;
+   for(i=0; i&lt;N; i++){
+       if(a[i][i]==0){
+	   for(j=0; j&lt;N; j++){
+	       if(j==i) continue;
+	       if(a[j][i] !=0 && a[i][j]!=0){
+		   for(k=0; k&lt;N; k++){
+		       temp = a[j][k];
+		       a[j][k] = a[i][k];
+		       a[i][k] = temp;
+		   }
+		   temp = b[j];
+		   b[j] = b[i];
+		   b[i] = temp;
+		   break;
+	       }
+	   }
+       }
+   }
+}
+void cls(){
+   for(int i=0; i&lt;25; i++) printf("\n");
+}
+void main(){
+   int i=0,j=0, k=0;
+   cls();
+   do{
+       printf("\nInput filename: ");
+       scanf("%s", filename);
+       InFile = fopen(filename, "rt");
+   }while(InFile==NULL);
+   count_num_lines();
+   allocmatrix();
+   rewind(InFile);
+   //read data from file
+   readmatrix();
+   //check if there are 0 on main diagonal and exchange rows in that case
+   diagonal();
+   fclose(InFile);
+   printmatrix();
+   //process rows
+   for(k=0; k&lt;N; k++){
+       for(i=k+1; i&lt;N; i++){
+	   if(a[k][k]==0){
+	       printf("\nSolution is not exist.\n");
+	       return;
+	   }
+	   float M = a[i][k] / a[k][k];
+	   for(j=k; j&lt;N; j++){
+	       a[i][j] -= M * a[k][j];
+	   }
+	   b[i] -= M*b[k];
+       }
+   }
+   printmatrix();
+   for(i=N-1; i&gt;=0; i--){
+       float s = 0;
+       for(j = i; j&lt;N; j++){
+	   s = s+a[i][j]*x[j];
+       }
+       x[i] = (b[i] - s) / a[i][i];
+   }
+
+   InFile = fopen(filename, "rt");
+   readmatrix();
+   fclose(InFile);
+   printmatrix();
+   testsolve();
+   printresult();
+   freematrix();
+}
+</pre>
+
+<p>Поскольку весь метод уже описан, коротко опишу, как эта программа получает
+уравнения на вход, что выдает в результате решения.
+<p>Чтобы воспользоваться этой программой, нужно запустить скомпилированный
+исполняемый файл. В первую очередь программа спросит, откуда ей брать коэффициенты
+для уравнений. Создайте в любом текстовом редакторе (но только не в Word-е 
+а, например в notepad-е) файл, где напишите  коэффициенты уравнений
+построчно через пробел, приблизительно так:
+
+<table>
+<tr>
+<td>a<sub>11</sub>
+<td>a<sub>12</sub> 
+<td>a<sub>13</sub> 
+<td>...
+<td>a<sub>1N</sub>
+<td>b<sub>1</sub>
+<tr>
+<td>a<sub>21</sub>
+<td>a<sub>22</sub> 
+<td>a<sub>23</sub> 
+<td>...
+<td>a<sub>2N</sub>
+<td>b<sub>2</sub>
+<tr>
+<td>a<sub>31</sub>
+<td>a<sub>32</sub> 
+<td>a<sub>33</sub> 
+<td>...
+<td>a<sub>3N</sub>
+<td>b<sub>3</sub>
+<tr>
+<td>a<sub>N1</sub>
+<td>a<sub>N2</sub> 
+<td>a<sub>N3</sub> 
+<td>...
+<td>a<sub>NN</sub>
+<td>b<sub>N</sub>
+</table>   	
+<p>Например:
+<table><tr><td>2	<td>-3	<td>1	<td>5
+<br><tr><td>-1	<td>-1	<td>2	<td>0
+<br><tr><td>1	<td>2	<td>-1	<td>3
+</table>
+
+<p>Этот файл необходимо создать в той директории, где лежит
+программа, иначе она его не найдет. В результате работы программы, она выдаст
+результат, нечто вроде:
+<p>
+X0 = 3.000000
+<br>X1 = 1.000000
+<br>X2 = 2.000000
+
+
+<p>Это и есть решение системы уравнений, т.е. набор неизвестных Х.
+<p>Коротко опишем, для чего служит такое 
+большое количество подпрограмм в данной программе:
+<ul>
+<li>void count_num_lines() - подсчитывает количество уравнений в системе
+<li>void allocmatrix() - выделяет память для массивов для хранения коэффициентов 
+уравнений, свободных членов и решения
+<li>void readmatrix() - прочитывает из файла коэффициенты и свободные члены 
+в массивы 
+<li>void printmatrix() - распечатывает систему уравнений
+<li>void diagonal() - делает так, чтобы на главной диагонали не было нулей, 
+чтобы не пришлось однажды делить на ноль в процессе приведения матрицы к
+треугольному виду
+<li>void testsolve() - подставляет решение в систему и распечатывает 
+рядом то, что получается в левой части уравнения и для сравнения печатает
+рядом свободные члены, те, что в правой части уравнения; получившиеся два
+столбца должны совпадать, если уравнения решены правильно
+<li>void printresult() - распечатывает получившийся столбец решений
+<li>void freematrix() - освобождает память, которая была выделена ранее
+<li>void cls() - стирает экран в начале работы программы
+<li>void main() - основная функция из которой последовательно вызываются все 
+вышеперечисленные функции, и проходит процесс приведения системы уравнений
+к треугольному виду и обратная прогонка.
+</ul>
+
+<p>Программа снабжена комментариями, что облегчает ее понимание. 
+<p>Надеюсь, что вам стало все понятно. 
+
+<center>
+<br><a href="http://alexeypetrov.narod.ru/index.html" target="_top">На главную >>></a>
+</center>
+
+<BR>
+<CENTER>
+<!--Rating@Mail.ru COUNTER--><a target=_top
+href="http://top.mail.ru/jump?from=749073">[AD-SIZE]<AD- p://top.list.ru/counter?id=749073;t=47"
+border=0 height=31 width=88
+alt="Рейтинг@Mail.ru"/></a><!--/COUNTER-->
+</html>
